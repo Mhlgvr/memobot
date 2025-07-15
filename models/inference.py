@@ -2,8 +2,9 @@ import torch
 from torchvision import transforms
 from PIL import Image
 # import abc
-from models import model
+from resnet import init_model
 
+model = init_model()
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # class BaseModel(abc.ABC):
@@ -12,7 +13,6 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     # @abc.abstractmethod 
     # def predict(self, img_path): pass
-
 
 
 
@@ -34,7 +34,6 @@ def predict(img_path):
         input = img.to(device).unsqueeze(0)
         logit = model(input)
     return logit.softmax(dim=1).argmax(dim=1)
-
 
 
 
