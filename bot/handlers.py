@@ -3,8 +3,13 @@ from aiogram import Router, Bot
 from aiogram.filters import Command
 from aiogram.fsm.state import State, StatesGroup
 from .keyboards import *
+from dotenv import load_dotenv
+import os
 
 router = Router()
+load_dotenv()
+TOKEN = os.getenv('TOKEN')
+
 
 class Classify(StatesGroup):
     sending_photo = State()
@@ -48,7 +53,7 @@ async def select_model(callback, state):
 async def classify_photo(message, state):
     data = await state.get_data()
     await state.clear()
-    bot = Bot(token='7637711461:AAFoqtUXJDJdzLYi4zG9PAt_8cvgRWQKJvY')
+    bot = Bot(token=TOKEN)            # сомнительно но допустим
     await bot.delete_message(chat_id=message.chat.id, message_id=data['last_message_id'])
     await message.answer('Пошел нахуй', reply_markup=back)
     await message.delete()
