@@ -1,8 +1,17 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+**/__pycache__/
 *.py[codz]
+*.py[cod]
 *$py.class
-
+**/.DS_Store
+.ipynb_checkpoints/
+.vscode/
+.idea/
+*.swp
+*.bak
+*.tmp
+data/dataset/images/
 # C extensions
 *.so
 
