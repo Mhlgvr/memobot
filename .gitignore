@@ -12,6 +12,7 @@ __pycache__/
 *.bak
 *.tmp
 data/dataset/images/
+notebooks/config.json
 
 # C extensions
 *.so
