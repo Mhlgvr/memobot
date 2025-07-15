@@ -1,14 +1,15 @@
-import asyncio
 from aiogram import Router, Bot
 from aiogram.filters import Command
 from aiogram.fsm.state import State, StatesGroup
-from .keyboards import *
 from dotenv import load_dotenv
 import os
 
-router = Router()
+from .keyboards import *
+
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
+
+router = Router()
 
 
 class Classify(StatesGroup):

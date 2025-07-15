@@ -11,7 +11,7 @@ __pycache__/
 *.swp
 *.bak
 *.tmp
-data/dataset/images/
+data/
 # C extensions
 *.so
 
