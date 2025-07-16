@@ -1,24 +1,24 @@
 import torch
 from torchvision import transforms
 from PIL import Image
-# import abc
+import abc
 from resnet import init_model
 
 model = init_model()
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-# class BaseModel(abc.ABC):
-    # @abc.abstractmethod              # оставим это на будущее
-    # def load(self, file_path): pass
+class BaseModel(abc.ABC):
+    @abc.abstractmethod              # оставим это на будущее
+    def load(self, file_path): pass
 
-    # @abc.abstractmethod 
-    # def predict(self, img_path): pass
+    @abc.abstractmethod 
+    def predict(self, img_path): pass
+
+    @abc.abstractmethod
+    def preprocess(self, img_path): pass
 
 
 
-# class ResnetModel():
-#     def __init__(self, model):
-#         self.model = model
 
 def preprocess(img_path):
     img = Image.open(img_path).convert('RGB')
