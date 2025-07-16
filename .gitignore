@@ -13,6 +13,8 @@ __pycache__/
 *.tmp
 data/test/
 data/train/
+data/memedataset.zip
+
 notebooks/config.json
 
 # C extensions

@@ -28,7 +28,7 @@ async def start(message):
 
 @router.callback_query(lambda m: m.data == 'back')
 async def back_to_menu(callback, state):
-    await callback.answer()
+    await callback.answer('COCAL?')
     await state.clear()
     await callback.message.edit_text('Выбери инструмент', reply_markup=main_menu)
 
@@ -39,8 +39,15 @@ async def select_service(callback):
     if model != 'classifier':
         await callback.answer('пока в разработке')
     else:
-        await callback.answer()
+        await callback.answer('лох')
         await callback.message.edit_text('Выбери модель', reply_markup=choose_classifier)
+
+
+@router.callback_query(lambda m: m.data == 'cancel')
+async def back_to_select_model(callback, state):
+    await callback.answer('ты пидор')
+    await state.clear()
+    await select_service(callback)
 
 
 @router.callback_query(lambda m: m.data.startswith('model'))
@@ -49,7 +56,7 @@ async def select_model(callback, state):
     if model not in available_models:
         await callback.answer('Эта модель еще не готова')
     else:
-        await callback.answer()
+        await callback.answer('всфзшзшгйрцзшгйцрзшгуарзйшцгарйзцшг рзцшугчр звйщушвчойа')
         await state.update_data(model = model)
         await state.set_state(Classify.sending_photo)
         await state.update_data(last_message_id=callback.message.message_id)
@@ -67,7 +74,7 @@ async def classify_photo(message, state):
     else:
         print('чето не то')
     
-    bot = message.bot 
+    bot = message.bot   # сомнительно но допустим
 
     photo = message.photo[-1]
     file_info = await bot.get_file(photo.file_id)
@@ -78,7 +85,6 @@ async def classify_photo(message, state):
 
     pred, probs = model.predict(byte_stream)
 
-    # bot = Bot(token=TOKEN)            # сомнительно но допустим
     await bot.delete_message(chat_id=message.chat.id, message_id=data['last_message_id'])
     await message.answer(f"Хуйня (уверенность: {probs[0]})", reply_markup=back)
     await message.delete()
