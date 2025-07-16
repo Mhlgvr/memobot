@@ -1,10 +1,11 @@
-import sys
-import os
+# import sys
+# import os
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from models.resnet import ResNetMemeClassifier
 from models.efficientnet import EfficientNetMemeClassifier
+import sys
 
 class_names = ['not meme', 'meme']
 
@@ -15,9 +16,6 @@ def load(model):
         return EfficientNetMemeClassifier()
     else:
         raise NotImplementedError(f'Unknown model: {model}')
-        sys.exit(1)
-
-
 
 if __name__ == '__main__':
     model = sys.argv[1]
