@@ -1,28 +1,42 @@
-from torchvision import models
-from inference import BaseModel
+from torchvision import transforms, models
+from PIL import Image
 import torch.nn as nn
 import torch
 
+from .inference import BaseModel
+
+model_path = '/Users/mhlgvr/Documents/Yandex.Disk.localized/CU2/AI/Bootcamps 2025/memobot/data/efficientnet.pth'
+
+class EfficientNetMemeClassifier(BaseModel):
+    def __init__(self):
+        super().__init__()
+        self.model = self.load()
 
 
-class EfficientNet(BaseModel):
-    def __init__(self, model_path=None):
-        self.device = torch.device('cuda' if torch.cuda.is_available else 'cpu')
-        self.model = self.load(model_path)
-
-    def load(self, model_path):
-        model = models.efficientnet_b0
-        model._fc = nn.Linear(model._fc.in_features, 2)
-        model.to(self.device)
+    def load(self):
+        model = models.efficientnet_b0()
+        model.classifier[1] = nn.Linear(1280, 2)
         model.load_state_dict(torch.load(model_path, map_location=self.device))
+        model.eval()
+        model.to(self.device)
         return model
 
     def preprocess(self, img_path):
-        return super().preprocess(img_path)
+        transform = transforms.Compose([
+            transforms.Resize((224, 224)),
+            transforms.ToTensor()
+        ])
+        img = Image.open(img_path).convert('RGB')
+        img = transform(img)
+        img = img.to(self.device).unsqueeze(0)
+        return img
     
     def predict(self, img):
         img = self.preprocess(img)
-        img = img.to(device).unsqueeze(0)
         with torch.no_grad():
             output = self.model(img)
-        return output.sofmax(dim=1).argmax(dim=1)
+        probs = output.softmax(dim=1)
+        predicted = probs.argmax(dim=1).item()
+        return predicted, probs.cpu().numpy()
+
+    

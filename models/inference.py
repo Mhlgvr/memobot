@@ -2,13 +2,14 @@ import torch
 from torchvision import transforms
 from PIL import Image
 import abc
-from resnet import init_model
 
-model = init_model()
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 class BaseModel(abc.ABC):
-    @abc.abstractmethod              # оставим это на будущее
+    @abc.abstractmethod
+    def __init__(self):
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+    @abc.abstractmethod
     def load(self, file_path): pass
 
     @abc.abstractmethod 
@@ -20,20 +21,7 @@ class BaseModel(abc.ABC):
 
 
 
-def preprocess(img_path):
-    img = Image.open(img_path).convert('RGB')
-    transform = transforms.Compose([
-        transforms.Resize((224, 224)),
-        transforms.ToTensor()
-    ])
-    return transform(img)
 
-def predict(img_path):
-    img = preprocess(img_path)
-    with torch.no_grad():
-        input = img.to(device).unsqueeze(0)
-        logit = model(input)
-    return logit.softmax(dim=1).argmax(dim=1)
 
 
 
