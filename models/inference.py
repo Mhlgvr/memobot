@@ -17,18 +17,3 @@ class BaseModel(abc.ABC):
 
     @abc.abstractmethod
     def preprocess(self, img_path): pass
-
-
-
-
-
-
-
-
-if __name__ == "__main__":
-    import sys
-    img_path = sys.argv[1]
-    result = predict(img_path)
-    print("Predicted class:", result)
-
-

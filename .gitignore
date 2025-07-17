@@ -11,8 +11,7 @@ __pycache__/
 *.swp
 *.bak
 *.tmp
-data/test/
-data/train/
+data/
 notebooks/config.json
 
 # C extensions
