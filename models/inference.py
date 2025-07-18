@@ -12,7 +12,8 @@ class BaseModel(ABC):
     def load(self):
         """
         Должен быть реализован в подклассе:
-        должен возвращать модель с инициализированной архитектурой и загруженными весами.
+        должен возвращать модель с инициализированной архитектурой и 
+        загруженными весами.
         """
         pass
 
@@ -34,7 +35,8 @@ class BaseModel(ABC):
                 output = self.model(img)
                 return func(self, output)
         return wrapper
-    
+
     @abstractmethod
-    def predict(self, img): pass
+    def predict(self, img):
+        pass
 

@@ -2,11 +2,15 @@ from torchvision import models
 import torch.nn as nn
 import torch
 from .inference import BaseModel
+import os
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+project_dir = os.path.dirname(os.getcwd())
 
-classifier_path = '/Users/mhlgvr/Documents/Yandex.Disk.localized/CU2/AI/Bootcamps 2025/memobot/data/classification/efficientnet.pth'
-regressor_path = '/Users/mhlgvr/Documents/Yandex.Disk.localized/CU2/AI/Bootcamps 2025/memobot/data/regression/efficientnet.pth'
+
+classifier_path = os.path.join(project_dir, 'data/classification/efficientnet.pth')
+regressor_path = os.path.join(project_dir, 'data/regression/efficientnet.pth')
+
 
 class EfficientNetMemeClassifier(BaseModel):
     def __init__(self):
@@ -20,13 +24,14 @@ class EfficientNetMemeClassifier(BaseModel):
         model.to(device)
         model.eval()
         return model
-    
+
     @BaseModel.predict_wrapper
     def predict(self, output):
         probs = output.softmax(dim=1)
         predicted = probs.argmax(dim=1).item()
         return predicted, probs.cpu().numpy()
-    
+
+
 class EfficientNetMemeRegressor(BaseModel):
     def __init__(self):
         super().__init__()

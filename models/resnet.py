@@ -2,11 +2,15 @@ import torch
 import torch.nn as nn
 from torchvision import models
 from .inference import BaseModel
+import os
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-classifier_path = '/Users/mhlgvr/Documents/Yandex.Disk.localized/CU2/AI/Bootcamps 2025/memobot/data/classification/resnet50.pth'
-regressor_path = '/Users/mhlgvr/Documents/Yandex.Disk.localized/CU2/AI/Bootcamps 2025/memobot/data/regression/resnet50.pth'
+project_dir = os.path.dirname(os.getcwd())
+
+
+classifier_path = os.path.join(project_dir, 'data/classification/resnet50.pth')
+regressor_path = os.path.join(project_dir, 'data/regression/resnet50.pth')
 
 
 class ResNetMemeClassifier(BaseModel):
@@ -22,15 +26,12 @@ class ResNetMemeClassifier(BaseModel):
         model.to(device)
         model.eval()
         return model
-    
 
     @BaseModel.predict_wrapper
     def predict(self, output):
         probs = output.softmax(dim=1)
         predicted = probs.argmax(dim=1).item()
         return predicted, probs.cpu().numpy()
-    
-
 
 
 class ResNetMemeRegressor(BaseModel):

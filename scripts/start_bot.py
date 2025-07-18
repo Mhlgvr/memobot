@@ -2,6 +2,7 @@ import asyncio
 import sys
 import os
 from dotenv import load_dotenv
+
 load_dotenv()
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -11,6 +12,7 @@ from bot.handlers import router
 TOKEN = os.getenv("TOKEN")
 if TOKEN is None:
     raise ValueError("BOT_TOKEN environment variable not set!")
+
 
 async def main():
     bot = Bot(token=TOKEN)
