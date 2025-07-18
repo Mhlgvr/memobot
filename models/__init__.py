@@ -1,3 +1,3 @@
-from .resnet import init_model
+import sys
 
-model = init_model()
+sys.path.append("..")
